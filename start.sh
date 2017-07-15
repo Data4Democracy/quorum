@@ -46,6 +46,6 @@ cd ../reddit/
 cd ../../
 
 # Start queue
-cd celery/
+cd scheduler/
 ./start_app.sh |& tee ${logs}/build.out 
-cd ../
+../
