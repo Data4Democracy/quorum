@@ -42,7 +42,7 @@ top level directory of this project:
 ./start.sh
 ```
 
-#Tests
+# Tests
 
 ```
 $ python -m unittest discover quorum/facebook
