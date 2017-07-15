@@ -6,26 +6,26 @@ clear
 set -x                                                                          
        
 # Stop queue
-cd celery/                                                                      
-sudo docker-compose down                                        
+cd scheduler/
+docker-compose down
 cd ../
 
 # Stop scrapers
 cd quorum/twitter
-sudo docker-compose down 
+docker-compose down
 cd ../facebook
-sudo docker-compose down
+docker-compose down
 cd ../reddit
-sudo docker-compose down
+docker-compose down
 cd ../../
 
 # stop DB
 cd storage
-sudo docker-compose down
+docker-compose down
 cd ../
 
 # Start Kafka server
 cd kafka/
-sudo docker-compose down 
+docker-compose down
 cd ../
 

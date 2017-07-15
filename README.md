@@ -25,37 +25,16 @@ Quorum has four main different components:
 First off, the scrapers are implemented using the official APIs for each
 platform. As such, in order to use you will need the proper credentials.
 
-Also, you probably want to specify what accounts, pages, subreddits to scrape!
+Also, you need  to specify what accounts, pages, subreddits to scrape!
 
-So in the top level directory you should include all the above information in a
-file named `config.py`, which should look like this:
+In the top level directory run the command below.
+
 ```
-TWITTER = {                                                                     
-    'CONSUMER_KEY': 'xxxxxxxx',                                
-    'CONSUMER_SECRET': 'xxxxxxx',    
-    'ACCESS_TOKEN': 'xxxxxxxxxxx',       
-    'ACCESS_SECRET': 'xxxxxxxxxx',           
-}                                                                               
-FACEBOOK = {                                                                    
-    'APP_ID': 'xxxxxxxxxxxxxxx',                                               
-    'APP_SECRET': 'xxxxxxxxxxxx',                           
-}                                                                               
-REDDIT = {                                                                      
-    'CLIENT_ID': 'xxxxxxxxxxxx',                                              
-    'CLIENT_SECRET': 'xxxxxxxxxxxxxxx',                             
-    'USER_AGENT': 'User-Agent: web:com.xxxxxxx.xxxxxx:v1.0 (by /u/xxxxxxxx)',
-}                                                                               
-                                                                                
-twitterUsernames = [                                                            
-    'screen_name'                                                                   
-]                     
-fbPages = [                                                                     
-    'page'                                                                  
-]                                                                               
-subreddits = [                                                                  
-    'subreddit'                                                                
-]               
+  $ cp config_example.py config.py
+
 ```
+
+Edit the config.py with the needed service credentials.
 
 To spin up your own version of quorum you can run the following command at the
 top level directory of this project:
