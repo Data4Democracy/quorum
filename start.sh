@@ -48,4 +48,4 @@ cd ../../
 # Start queue
 cd scheduler/
 ./start_app.sh |& tee ${logs}/build.out 
-../
+cd ../
