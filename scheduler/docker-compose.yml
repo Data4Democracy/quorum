@@ -6,7 +6,7 @@ networks:
 
 services:
     usersdb:                                                                   
-        image: postgres                                                         
+        image: postgres:9.6
         hostname: usersdb                                                      
         container_name: usersdb                                                
         environment:                                                            
@@ -16,12 +16,14 @@ services:
         volumes:                                                                
             - ./data:/var/lib/postgresql/data                                   
         networks:                                                               
-            - schedulernet 
+            - schedulernet
 
     scheduler:
         build: .
         hostname: scheduler                                              
         container_name: scheduler
+        #environment:
+        #    - DEVELOPMENT=true
         volumes:
             - .:/app
         depends_on:

@@ -8,6 +8,8 @@ services:
         build: .
         hostname: fb
         container_name: fb
+        #environment:
+        #    - DEVELOPMENT=true
         volumes:
             - .:/app
         networks:

@@ -10,7 +10,7 @@ from config import REDDIT
 
 def format_submission(submission):                                                        
     formatedSub = {                                                           
-        'id': submission.id,                                                  
+        'idstr': submission.id,                                                  
         'created_at': submission.created,                                      
         'author': submission.author,                                 
         'text': submission.title,                                                  
@@ -35,9 +35,8 @@ def get_reddit_submissions(subreddit):
     producer = KafkaProducer(bootstrap_servers='kafka:9092')
     # Reddit API
     reddit = authenticate_api()
-
+    
     submissions = 0
-    need_update = True
     try:
         for submission in reddit.subreddit(subreddit).new():
             sub = format_submission(submission)
@@ -54,10 +53,8 @@ def get_reddit_submissions(subreddit):
         producer.flush()
     except Exception as e:
         with open('Errors.txt', 'a') as f:
+            f.write(str(type(e))+'\n')
             f.write(str(e)+'\n') 
-        print(e)
-        print('Taking a short nap...')
-        sleep(15*60)
 
     # Flush kafka producer                                                  
     producer.flush()
@@ -65,7 +62,6 @@ def get_reddit_submissions(subreddit):
 
 
 if __name__=="__main__":
-    sleep(10)
     dev = os.environ.get('DEVELOPMENT')
     if dev:
         get_reddit_submissions('AskReddit')

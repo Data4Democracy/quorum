@@ -9,8 +9,6 @@ from sqlalchemy.dialects.postgresql import JSON, JSONB
 
 
 def get_user_tweets(username):
-    print("User: ", username)
-    """
     producer = KafkaProducer(bootstrap_servers='kafka:9092') 
     consumer = KafkaConsumer('twitterCheckpoint', bootstrap_servers=['kafka:9092']) 
     msgSent = producer.send('twitterUser', username.encode('utf-8'))
@@ -23,11 +21,8 @@ def get_user_tweets(username):
 
             if msgReceived==username:
                 return
-    """
 
 def get_page_posts(page):                                                       
-    print("Page: ", page)
-    """
     producer = KafkaProducer(bootstrap_servers='kafka:9092')                    
     consumer = KafkaConsumer('fbCheckpoint', bootstrap_servers=['kafka:9092'])                                                                              
     msgSent = producer.send('fbPage', page.encode('utf-8'))                 
@@ -40,11 +35,8 @@ def get_page_posts(page):
                                                                                 
             if msgReceived==page:                                               
                 return                                                          
-    """ 
 
 def get_subreddit_posts(subr):                                                  
-    print("subreddit: ", subr)
-    """
     producer = KafkaProducer(bootstrap_servers='kafka:9092')                    
     consumer = KafkaConsumer('redditCheckpoint', bootstrap_servers=['kafka:9092'])                                                                            
     msgSent = producer.send('subreddit', subr.encode('utf-8'))                  
@@ -57,9 +49,9 @@ def get_subreddit_posts(subr):
                                                                                 
             if msgReceived==subr:                                               
                 return  
-    """
 
-def add_users(user, tablename):
+
+def add_users(user, tablename, db_uri='postgresql://user:pass@usersdb/usersdb'):
     """ add a 'user' entry to a DB.
 
     Params
@@ -68,10 +60,10 @@ def add_users(user, tablename):
         It can be a twitter handle, a fb page, or a subreddit
     tablename: str
         name of db table to write to
+    db_uri : str
     """
     # Connect to postgres DB 
-    connection_string = 'postgresql://user:pass@usersdb/usersdb'
-    db = sqlalchemy.create_engine(connection_string)                                
+    db = sqlalchemy.create_engine(db_uri)                                
     engine = db.connect()                                                           
     meta = sqlalchemy.MetaData(engine)                                              
     meta.reflect(bind=engine)
@@ -104,12 +96,17 @@ def add_users(user, tablename):
     return
 
 
-def scrape_users(tablename):
-    """  
+def scrape_users(tablename, db_uri='postgresql://user:pass@usersdb/usersdb'):
+    """ Kick off scrapers
+
+    Params
+    ------
+    tablename : str
+        table containing accounts to scrape
+    db_uri : str
     """
     # Connect to postgres DB
-    connection_string = 'postgresql://user:pass@usersdb/usersdb' 
-    db = sqlalchemy.create_engine(connection_string)
+    db = sqlalchemy.create_engine(db_uri)
     engine = db.connect() 
     meta = sqlalchemy.MetaData(engine)  
     meta.reflect(bind=engine) 

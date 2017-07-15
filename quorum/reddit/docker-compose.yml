@@ -8,6 +8,8 @@ services:
         build: .
         hostname: reddit                                                      
         container_name: reddit
+        environment:
+            - DEVELOPMENT=true
         volumes:
             - .:/app
         networks:                                                               

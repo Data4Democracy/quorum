@@ -6,7 +6,7 @@ networks:
 
 services:
     postgres:  
-        image: postgres            
+        image: postgres:9.6 
         hostname: postgres           
         container_name: postgres 
         environment:                                                            

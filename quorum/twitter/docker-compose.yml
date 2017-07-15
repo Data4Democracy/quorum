@@ -8,6 +8,8 @@ services:
         build: .
         hostname: twitter                                                         
         container_name: twitter
+        #environment:                                                            
+        #    - DEVELOPMENT=true
         volumes:
             - .:/app
         networks:                                                                                                                          
