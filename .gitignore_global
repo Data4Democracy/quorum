@@ -1,0 +1,24 @@
+# git config --global core.excludesfile .gitignore_global
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+
+# backups
+*.sw[op]
+
+# logs
+*.log
+
+# credentials
+config.py
+scheduler/config.py
+quorum/config.py
+quorum/twitter/config.py
+quorum/facebook/config.py
+quorum/reddit/config.py
+
+# persistent volumes
+data/
+
+# Mine
+usefulcommands.sh

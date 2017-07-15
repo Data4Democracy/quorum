@@ -1,0 +1,25 @@
+version: "3"
+networks:
+    kafkanet:
+
+services:
+    zookeeper:
+        image: jeqo/apache-zookeeper:3.4.8
+        hostname: zookeeper                                                            
+        container_name: zookeeper
+        networks:
+            - kafkanet
+
+    kafka:
+        image: jeqo/apache-kafka:0.10.2.0-2.11
+        hostname: kafka
+        container_name: kafka 
+        environment:
+            - KAFKA_HEAP_OPTS=-Xmx200M -Xms100M
+        ports:
+            - 9092:9092
+            - 7203:7203
+        depends_on:
+            - zookeeper
+        networks:
+            - kafkanet 

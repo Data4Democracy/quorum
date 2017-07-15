@@ -1,0 +1,16 @@
+version: "3"
+networks:
+    kafka_kafkanet:
+        external: true
+
+services:
+    reddit:
+        build: .
+        hostname: reddit                                                      
+        container_name: reddit
+        environment:
+            - DEVELOPMENT=true
+        volumes:
+            - .:/app
+        networks:                                                               
+            - kafka_kafkanet

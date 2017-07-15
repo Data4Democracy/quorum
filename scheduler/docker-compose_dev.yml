@@ -1,0 +1,34 @@
+version: "3"
+networks:              
+    kafka_kafkanet:
+        external: true
+    schedulernet:
+
+services:
+    usersdb:                                                                   
+        image: postgres                                                         
+        hostname: usersdb                                                      
+        container_name: usersdb                                                
+        environment:                                                            
+            - POSTGRES_USER=user                                                
+            - POSTGRES_PASSWORD=pass                                            
+            - POSTGRES_DB=usersdb                                            
+        volumes:                                                                
+            - ./data:/var/lib/postgresql/data                                   
+        networks:                                                               
+            - schedulernet
+
+    scheduler:
+        build: .
+        hostname: scheduler                                              
+        container_name: scheduler
+        environment:
+            - DEVELOPMENT=true
+        volumes:
+            - .:/app
+        depends_on:
+            - usersdb
+        networks:
+            - schedulernet
+            - kafka_kafkanet
+

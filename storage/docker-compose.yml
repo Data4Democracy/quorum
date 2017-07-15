@@ -1,0 +1,31 @@
+version: "3"
+networks:
+    kafka_kafkanet:
+        external: true
+    postgresnet:
+
+services:
+    postgres:  
+        image: postgres            
+        hostname: postgres           
+        container_name: postgres 
+        environment:                                                            
+            - POSTGRES_USER=user
+            - POSTGRES_PASSWORD=pass
+            - POSTGRES_DB=mydatabase    
+        volumes:
+            - ./data:/var/lib/postgresql/data 
+        networks:
+            - postgresnet
+
+    postgresapp:
+        build: .
+        hostname: postgresapp
+        container_name: postgresapp
+        volumes:
+            - .:/app
+        depends_on:
+            - postgres
+        networks:                                                               
+            - postgresnet                                                           
+            - kafka_kafkanet

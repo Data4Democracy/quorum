@@ -1,0 +1,14 @@
+version: "3"
+networks:
+    kafka_kafkanet:
+        external: true
+
+services:
+    fb:
+        build: .
+        hostname: fb
+        container_name: fb
+        volumes:
+            - .:/app
+        networks:
+            - kafka_kafkanet

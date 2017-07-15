@@ -1,0 +1,14 @@
+version: "3"
+networks:
+    kafka_kafkanet:
+        external: true
+
+services:
+    twitter:
+        build: .
+        hostname: twitter                                                         
+        container_name: twitter
+        volumes:
+            - .:/app
+        networks:                                                                                                                          
+            - kafka_kafkanet
