@@ -1,10 +1,22 @@
 #!/bin/bash
 
-export PS4='$(tput setaf 1)$(tput setab 7) + $(tput sgr 0)'                     
+NORMAL="\\033[0;39m"                                                            
+RED="\\033[1;31m"                                                               
+BLUE="\\033[1;34m"
+
+logs=$(pwd)
+
+log() {                                                                         
+    echo -e "$BLUE > $1 $NORMAL"                                                   
+}                                                                               
+                                                                                    
+error() {                                                                       
+    echo ""                                                                     
+    echo -e "$RED >>> ERROR - $1$NORMAL"                                           
+}                 
 clear                                                                           
 
-export DEVELOPMENT=True
-logs=$(pwd)
+
 
 if [ -e build.out ]; then 
     rm build.out
@@ -21,22 +33,24 @@ else
     exit 1
 fi
 
-set -x
 
 # Stop all services
 ./stop.sh
 
 # Start Kafka server
+log "Kafka setup..."
 cd kafka/
 ./setup_kafka.sh |& tee ${logs}/build.out
 cd ../
 
 # Start DB
+log "Postrges DB setup..."
 cd storage/
 ./start_app.sh |& tee ${logs}/build.out 
 cd ../
 
 # Start scrapers
+log "Running scrapers..."
 cd quorum/twitter/
 ./start_app.sh |& tee ${logs}/build.out 
 cd ../facebook/
@@ -46,6 +60,7 @@ cd ../reddit/
 cd ../../
 
 # Start queue
+log "Starting scheduler..."
 cd scheduler/
 ./start_app.sh |& tee ${logs}/build.out 
 cd ../
