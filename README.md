@@ -42,4 +42,12 @@ top level directory of this project:
 ./start.sh
 ```
 
+#Tests
+
+```
+$ python -m unittest discover quorum/facebook
+```
+
+Todo: add a way to read all the tests in all the folders with one script or command. Will also
+need to install dependencies before hand to get this to work. 
 # Working on the documentation :-)
