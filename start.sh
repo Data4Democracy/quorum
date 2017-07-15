@@ -40,27 +40,27 @@ fi
 # Start Kafka server
 log "Kafka setup..."
 cd kafka/
-./setup_kafka.sh |& tee ${logs}/build.out
+./setup_kafka.sh | tee ${logs}/build.out
 cd ../
 
 # Start DB
 log "Postrges DB setup..."
 cd storage/
-./start_app.sh |& tee ${logs}/build.out 
+./start_app.sh | tee -a ${logs}/build.out 
 cd ../
 
 # Start scrapers
 log "Running scrapers..."
 cd quorum/twitter/
-./start_app.sh |& tee ${logs}/build.out 
+./start_app.sh | tee -a ${logs}/build.out 
 cd ../facebook/
-./start_app.sh |& tee ${logs}/build.out
+./start_app.sh | tee -a ${logs}/build.out
 cd ../reddit/
-./start_app.sh |& tee ${logs}/build.out
+./start_app.sh | tee -a ${logs}/build.out
 cd ../../
 
 # Start queue
 log "Starting scheduler..."
 cd scheduler/
-./start_app.sh |& tee ${logs}/build.out 
+./start_app.sh | tee -a ${logs}/build.out 
 cd ../
