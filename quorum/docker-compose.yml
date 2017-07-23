@@ -1,0 +1,39 @@
+version: "3"
+networks:
+    kafka_kafkanet:
+        external: true
+
+services:
+    fb:
+        build:
+            context: .
+
+        entrypoint: python run_fb.py
+        hostname: fb_host
+        container_name: facebook
+        volumes:
+            - .:/app
+        networks:
+            - kafka_kafkanet
+
+    twitter:
+        build:
+            context: .
+        entrypoint: python run_twitter.py
+        hostname: twitter_host
+        container_name: twitter
+        volumes:
+            - .:/app
+        networks:
+            - kafka_kafkanet
+
+    reddit:
+        build:
+            context: .
+        entrypoint: python run_reddit.py
+        hostname: reddit_host
+        container_name: reddit
+        volumes:
+            - .:/app
+        networks:
+            - kafka_kafkanet

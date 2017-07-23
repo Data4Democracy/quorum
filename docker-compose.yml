@@ -1,0 +1,88 @@
+version: "3"
+networks:
+    kafka_kafkanet:
+       driver: bridge
+    schedulernet:
+
+services:
+    zookeeper:
+        image: jeqo/apache-zookeeper:3.4.8
+        hostname: zookeeper
+        container_name: zookeeper
+        networks:
+            - kafka_kafkanet
+
+    kafka:
+        image: jeqo/apache-kafka:0.10.2.0-2.11
+        hostname: kafka
+        container_name: kafka
+        environment:
+            - KAFKA_HEAP_OPTS=-Xmx200M -Xms100M
+        ports:
+            - 9092:9092
+            - 7203:7203
+        depends_on:
+            - zookeeper
+        networks:
+            - kafka_kafkanet
+
+    fb:
+        build:
+            context: ./quorum
+
+        entrypoint: python run_fb.py
+        hostname: fb_host
+        container_name: facebook
+        volumes:
+            - .:/app
+        networks:
+            - kafka_kafkanet
+
+    twitter:
+        build:
+            context: ./quorum
+        entrypoint: python run_twitter.py
+        hostname: twitter_host
+        container_name: twitter
+        volumes:
+            - .:/app
+        networks:
+            - kafka_kafkanet
+
+    reddit:
+        build:
+            context: ./quorum
+        entrypoint: python run_reddit.py
+        hostname: reddit_host
+        container_name: reddit
+        volumes:
+            - .:/app
+        networks:
+            - kafka_kafkanet
+
+    usersdb:
+        image: postgres:9.6
+        hostname: usersdb
+        container_name: usersdb
+        environment:
+            - POSTGRES_USER=user
+            - POSTGRES_PASSWORD=pass
+            - POSTGRES_DB=usersdb
+        volumes:
+            - ./data:/var/lib/postgresql/data
+        networks:
+            - schedulernet
+    scheduler:
+        build: ./scheduler
+        hostname: scheduler
+        container_name: scheduler
+
+        volumes:
+            - .:/app
+        depends_on:
+            - usersdb
+        networks:
+            - schedulernet
+            - kafka_kafkanet
+
+

@@ -42,6 +42,15 @@ top level directory of this project:
 ./start.sh
 ```
 
+# Experimental Usage
+Still being worked on. Hopefully, this will be the way forward for the project.<br/>
+edit ./quorum/confgi.py for account info<br/>
+Then in the base project directory.
+```
+$ docker-compose -up --build -d
+```
+
+
 # Tests
 
 ```
